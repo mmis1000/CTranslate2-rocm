@@ -45,9 +45,9 @@ namespace ctranslate2 {
   MATCH_TYPE_AND_ENUM(int16_t, DataType::INT16);
   MATCH_TYPE_AND_ENUM(int32_t, DataType::INT32);
   MATCH_TYPE_AND_ENUM(float16_t, DataType::FLOAT16);
-  #ifdef CT2_USE_HIP
+  // #ifdef CT2_USE_HIP
   MATCH_TYPE_AND_ENUM(bfloat16_t, DataType::BFLOAT16);
-  #endif
+  // #endif
 #undef MATCH_TYPE_AND_ENUM
 
 #define TYPE_CASE(TYPE, STMTS)                  \

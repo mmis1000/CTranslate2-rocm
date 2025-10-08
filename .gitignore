@@ -10,3 +10,8 @@ python/dist/
 .cache
 docs/build/
 docs/python/
+
+/bin/*
+/lib/*
+/python/ctranslate2/*.dll
+/.vscode/*

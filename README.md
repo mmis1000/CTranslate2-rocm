@@ -3,7 +3,7 @@
 # CTranslate2
 <div align="center">
 
-**Upstream README** | [ROCm Install Guide](README_ROCM.md)
+**Upstream README** | [ROCm Install Guide](README_ROCM.md) | [ROCm Install Guide on windows](README_ROCM_WINDOWS.md)
 </div>
 
 CTranslate2 is a C++ and Python library for efficient inference with Transformer models.
