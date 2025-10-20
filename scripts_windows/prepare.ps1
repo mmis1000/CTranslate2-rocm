@@ -2,17 +2,36 @@
 chcp 65001
 
 # CHANGE THIS to your VSCODE Build Tools path
-$VS_BUILD_TOOLS_ROOT="C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools"
+# set it only when not already set
+if (-not $env:VS_BUILD_TOOLS_ROOT) {
+    $env:VS_BUILD_TOOLS_ROOT="C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools"
+}
+
 # CHANGE THIS to your ROCm SDK path
-$env:ROCM_PATH = "M:\Playground\Rocm\.venv\Lib\site-packages\_rocm_sdk_devel"
+# set it only when not already set
+if (-not $env:ROCM_PATH) {
+    $env:ROCM_PATH = "C:\Playground\Rocm\.venv\Lib\site-packages\_rocm_sdk_devel"
+}
+
 # CHANGE THIS to your GPU architecture
-$env:PYTORCH_ROCM_ARCH="gfx1201"
+# set it only when not already set
+if (-not $env:PYTORCH_ROCM_ARCH) {
+    $env:PYTORCH_ROCM_ARCH="gfx1201"
+}
+
 # CHANGE THIS to your Intel oneAPI path
-$env:INTEL_ROOT="C:\Program Files (x86)\Intel\oneAPI"
+# set it only when not already set
+if (-not $env:INTEL_ROOT) {
+    $env:INTEL_ROOT="C:\Program Files (x86)\Intel\oneAPI"
+}
 
-$env:CTRANSLATE2_ROOT = "$PSScriptRoot"
+$env:CTRANSLATE2_ROOT = Resolve-Path "$PSScriptRoot\..\"
 
-& "$VS_BUILD_TOOLS_ROOT\Common7\Tools\Launch-VsDevShell.ps1" -Arch amd64
+# change back to system locale to avoid issues with some tools
+$systemLocale = Get-WinSystemLocale
+chcp $systemLocale.TextInfo.ANSICodePage
+& "$env:VS_BUILD_TOOLS_ROOT\Common7\Tools\Launch-VsDevShell.ps1" -Arch amd64
+chcp 65001
 
 $env:PATH="$env:ROCM_PATH\bin;$env:PATH"
 $env:PATH="$env:CTRANSLATE2_ROOT\bin;$env:PATH"
