@@ -417,12 +417,24 @@ endif()
 
 if(WITH_DNNL)
   set(ONEAPI_DNNL_PATH ${INTEL_ROOT}/oneapi/dnnl/latest)
-  set(ONEAPI_DNNL_PATH ${ONEAPI_DNNL_PATH})
-  # if(OPENMP_RUNTIME STREQUAL "INTEL")
-  #   set(ONEAPI_DNNL_PATH ${ONEAPI_DNNL_PATH}/cpu_iomp)
-  # else()
-  #   set(ONEAPI_DNNL_PATH ${ONEAPI_DNNL_PATH}/cpu_gomp)
-  # endif()
+  if(OPENMP_RUNTIME STREQUAL "INTEL")
+    set(ONEAPI_DNNL_PATH ${ONEAPI_DNNL_PATH}/cpu_iomp)
+  else()
+    set(ONEAPI_DNNL_PATH ${ONEAPI_DNNL_PATH}/cpu_gomp)
+  endif()
+
+  # The DNNL folder does not contains cpu_iomp or cpu_gomp in the newer versions
+  # So we must fall back to ${ONEAPI_DNNL_PATH} if the folder does not exist
+  # ONLY FAIL IF all dir in the list does not exist
+  set(FOUND_DNNL_PATH "")
+  foreach(path IN LISTS ONEAPI_DNNL_PATH)
+    if (EXISTS "${path}")
+      set(FOUND_DNNL_PATH "${path}")
+    endif()
+  endforeach()
+  if(FOUND_DNNL_PATH STREQUAL "")
+    set(ONEAPI_DNNL_PATH ${INTEL_ROOT}/oneapi/dnnl/latest)
+  endif()
 
   find_path(DNNL_INCLUDE_DIR NAMES dnnl.h PATHS ${ONEAPI_DNNL_PATH}/include)
   if(DNNL_INCLUDE_DIR)
