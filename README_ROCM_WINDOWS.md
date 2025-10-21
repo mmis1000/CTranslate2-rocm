@@ -14,7 +14,16 @@ This is a guide to build ctranslate2-rocm on a Windows machine. Currently, the o
 1. Some slight tweaks have been made to the files to support name and header changes in ROCm 7.
 2. The `CMakeLists.txt` have been edited to fix the incorrect assumption of `windows always use msvc to compile projects`
 
-## Dependencies
+## Quick build
+
+1. Copy content of `.\scripts_windows\ci.ps1` to a clean windows vm or windows sandbox
+2. Active script execution of powershell
+3. Edit the script to contain the correct arch of your gpu
+4. Run the script in an admin powershell
+
+## Manual build
+
+### Dependencies
 
 1. Windows Build Tools 2022
 
@@ -42,39 +51,38 @@ This is a guide to build ctranslate2-rocm on a Windows machine. Currently, the o
 
    Install it in any way you prefer.
 
-## Steps
+### Steps
 
 All scripts below assume PowerShell.
 
-## Clean previous built result
+#### Clean previous built result
 
-1. Run `.\clean.ps1` to clear all builds when switching config.
+1. Run `..\scripts_windows\clean.ps1` to clear all builds when switching config.
 
-## Configure environment
+#### Configure environment
 
 This step needs to be run before running any other steps.
 The effect is temporary and will be lost after closing the terminal.
 
-1. Edit `prepare.ps1`, change the `VS_BUILD_TOOLS_ROOT`, `ROCM_PATH`, `PYTORCH_ROCM_ARCH`, and `INTEL_ROOT` to match your actual install paths.
-2. Run `.\prepare.ps1` to configure the current shell environment.
+1. Edit `.\scripts_windows\prepare.ps1`, change the `VS_BUILD_TOOLS_ROOT`, `ROCM_PATH`, `PYTORCH_ROCM_ARCH`, and `INTEL_ROOT` to match your actual install paths.
+2. Run `.\scripts_windows\prepare.ps1` to configure the current shell environment.
 
-## Build ctranslate2
-1. Run `.\configure.ps1` to configure the build.
+#### Build ctranslate2
+1. Run `.\scripts_windows\configure.ps1` to configure the build.
+   - or `.\scripts_windows\configure-no-rocm.ps1` to compile without rocm and hip
+   - or `.\scripts_windows\configure-msvc.ps1` to compile without rocm and hip and with msvc
+2. Run `.\scripts_windows\build.ps1` to build the actual dist.
 
-   - or `.\configure-no-rocm.ps1` to compile without rocm and hip
-   - or `.\configure-msvc.ps1` to compile without rocm and hip and with msvc
-2. Run `.\build.ps1` to build the actual dist.
-
-## Build the python wheel
+#### Build the python wheel
 1. Switch to the `.\python` directory.
 2. Activate the `venv` and install Python dependencies with `pip install -r install_requirements.txt`.
-3. Run `.\prepare.ps1` to configure the environment again because `venv` wiped the PATH.
+3. Run `.\scripts_windows\prepare.ps1` to configure the environment again because `venv` wiped the PATH.
 4. Run `python setup.py bdist_wheel` to build the Python wheel.
 
-## Debug not found runtime errors
+### Debug not found runtime errors
 
 1. Use https://github.com/lucasg/Dependencies to find which DLLs are missing.
 
-## Test and benchmark
+### Test and benchmark
 
 The rest of the instructions are the same as the [steps for Linux](./README_ROCM.md)
