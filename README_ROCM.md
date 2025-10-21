@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[Upstream README](README.md) | **ROCm Install Guide**
+[Upstream README](README.md) | **ROCm Install Guide** | [ROCm Install Guide on windows](README_ROCM_WINDOWS.md)
 </div>
 
 ## Install Guide
