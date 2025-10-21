@@ -63,7 +63,7 @@ $env:ROCM_PATH=$(rocm-sdk path --root)
 Set-Location ..\
 
 # setup project
-git clone -b rocm-7-w-window https://github.com/mmis1000/CTranslate2-rocm.git --recurse-submodules
+git clone -b rocm https://github.com/arlo-phoenix/CTranslate2-rocm --recurse-submodules
 
 Set-Location CTranslate2-rocm\
 
